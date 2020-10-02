@@ -1,9 +1,13 @@
 //check README.md for more information
 
+// below helps recognize p5 commands
 /// <reference path="TSDef/p5.global-mode.d.ts" />
 
 //create a socket connection
 var socket;
+
+//square on key
+var square;
 
 function setup() {
     //create a canvas
@@ -31,6 +35,20 @@ function draw() {
     
 }
 
+//p5 func for keyPressed to generate user placed squares
+function keyPressed() {
+    var constraintX = random(0, width);
+    var constraintY = random(0, height)
+
+    if (socket.id) {
+
+        console.log("Key pressed at " + constraintX + " " + constraintY);
+        //send 
+        socket.emit('clientAction', { keyX: constraintX, keyY: constraintY });
+
+    }
+    }
+
 //p5 function called on mouse press - send coordinates to server
 function mousePressed() {
     //make sure the connection is established
@@ -46,9 +64,18 @@ function mousePressed() {
 //called by the server upon any user action including me
 function onAction(obj) {
     //change fill color to black
-    fill(255, 0, 0);
+    let r = random(0, 255);
+    let g = random(110, 255);
+    let b = random(10, 255);
+    
+    noStroke();
+    fill(r, g, b);
     //draw a circle
     ellipse(obj.x, obj.y, 20, 20);
+
+    if(keyIsPressed = true) {
+        rect(obj.keyX, obj.keyY, 20, 20);
+    }
 }
 
 //connected to the server
