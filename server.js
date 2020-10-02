@@ -37,6 +37,7 @@ io.on('connection', function (socket) {
 
         //and send it to all clients
         io.emit('action', obj);
+        
 
         //sending to all clients except sender
         socket.broadcast.emit("message", "It wasn't you!");
